@@ -9,7 +9,8 @@ using namespace std;
 int main() {
   string in_num;
   bool kapFound = false;
-  unsigned long min, max, i, square;
+  bool i_found;
+  unsigned long min, max, i, j, square;
   unsigned long l1, l2;                 // first and second half
   unsigned long divPow;
   unsigned long numLen;
@@ -22,16 +23,28 @@ int main() {
 
   /* Loop through all integers in range */
   for (i = min; i <= max; i++) {
+    i_found = false;
     numLen = (to_string(i)).length();
     square = i*i;
     divPow = (unsigned long) pow(10, numLen);
     l2 = square % divPow;
     l1 = (square - l2)/divPow;
-    if ( i == l1 + l2 ) {
+    if ( i == l1 + l2 )
+      i_found = true;
+    else {
+      for (j = 1; (j <= numLen) && (l1%10 == 0); j++) {
+        l1 /= 10;
+        if ( i == l1 + l2 )
+          i_found = true;
+      }
+    }
+
+    if (i_found) {
       kapFound = true;
       cout << i;
       if (i != max)
         cout << ' ';
+      continue;
     }
   }
 
