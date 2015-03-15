@@ -25,7 +25,6 @@ int main() {
   int max;
   cell_t * thisCell;
   int thisReg;
-  int nextReg = 0;
   cin >> m >> n;
 
   /* Get all data */
@@ -56,21 +55,21 @@ int main() {
           thisCell->left = &grid[i][j-1];
 
         /* Update connected region */
+        thisReg = thisCell->reg_index;
         if ( (thisCell->top_left != NULL) && (thisCell->top_left->val == 1) )
           thisReg = thisCell->top_left->reg_index;
         else if ( (thisCell->top != NULL) && (thisCell->top->val == 1) )
-          thisReg = thisCell->top_left->reg_index;
+          thisReg = thisCell->top->reg_index;
         else if ( (thisCell->left != NULL) && (thisCell->left->val == 1) )
           thisReg = thisCell->left->reg_index;
 
         if (thisReg != -1) {
           thisCell->reg_index = thisReg;
-          regions[thisReg]++;
+          regions.at(thisReg)++;
         }
         else {
-          regions.push_back(-1);
-          regions[nextReg]++;
-          nextReg++;
+          regions.push_back(1);
+          thisCell->reg_index = regions.size()-1;
         }
 
       }
