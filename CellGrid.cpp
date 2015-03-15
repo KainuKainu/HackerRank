@@ -64,7 +64,7 @@ int main() {
         if (j<n-1)
           thisCell->right = &grid[i][j+1];
 
-        /* Update connected region */
+        /* Fine connected region */
         thisReg = thisCell->conReg;
         if ( (thisCell->top_left != NULL) && (thisCell->top_left->val == 1) )
           thisReg = thisCell->top_left->conReg;
@@ -73,6 +73,21 @@ int main() {
         else if ( (thisCell->left != NULL) && (thisCell->left->val == 1) )
           thisReg = thisCell->left->conReg;
 
+        /* Top right cell check */
+        if ( (thisCell->top_right != NULL) && (thisCell->top_right->val == 1) ){
+          rightCellReg = thisCell->top_right->conReg;
+          if (thisReg == NULL)
+            thisReg = rightCellReg;
+          else if (thisReg != rightCellReg) {
+            thisReg->sum += rightCellReg->sum;
+            thisCell->top_right->conReg = thisReg;
+            if ( (thisCell->top_right->right != NULL) &&
+                (thisCell->top_right->right->val == 1) )
+              thisCell->top_right->right->conReg = thisReg;
+          }
+        }
+
+        /* Update this region */
         if (thisReg != NULL) {
           thisCell->conReg = thisReg;
           thisReg->sum += 1;
@@ -82,16 +97,6 @@ int main() {
           thisCell->conReg = regions.back();
           thisCell->conReg->sum += 1;
           thisReg = thisCell->conReg;
-        }
-
-        /* Top right cell check */
-        if ( (thisCell->top_right != NULL) && (thisCell->top_right->val == 1) ){
-          rightCellReg = thisCell->top_right->conReg;
-          thisReg->sum += rightCellReg->sum;
-          thisCell->top_right->conReg = thisReg;
-          if ( (thisCell->top_right->right != NULL) &&
-            (thisCell->top_right->right->val == 1) )
-            thisCell->top_right->right->conReg = thisReg;
         }
 
       }
