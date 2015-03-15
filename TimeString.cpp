@@ -70,6 +70,8 @@ void printNumber(int num) {     // 0 <= num <= 30
 
   /* Print ones */
   if (ten_digit != 1) {
+    if (ten_digit == 2)
+      cout << ' ';
     switch (one_digit) {
       case 0: break;
       case 1:
@@ -114,6 +116,7 @@ int main() {
     printNumber(hr);
     cout << ' ';
     printNumber(min);
+    cout << '\n';
     return 0;
   }
 
@@ -133,7 +136,9 @@ int main() {
     cout << " minute";
   else if ( (p_min != 15) && (p_min != 30) )
     cout << " minutes";
+  cout << p_loc;
   printNumber(p_hr);
+  cout << '\n';
 
   return 0;
 }
