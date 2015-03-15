@@ -18,18 +18,12 @@ struct cell_t {
   cell_t * left = NULL;
 };
 
-/* Hold region info */
-typedef struct reg_t reg_t;
-struct reg_t {
-  int sum = 0;
-};
-
 int main() {
-  vector<reg_t*> regions;
-  int m, n;
-  int i, j;
+  vector<int> regions;
+  unsigned int m, n;
+  unsigned int i, j;
+  int max;
   cell_t * thisCell;
-  cell_t * cellToLink;
   int thisReg;
   int nextReg = 0;
   cin >> m >> n;
@@ -71,15 +65,26 @@ int main() {
 
         if (thisReg != -1) {
           thisCell->reg_index = thisReg;
-          regions[thisReg]->sum++;
+          regions[thisReg]++;
         }
         else {
-          regions.push_back(new reg_t());
-
+          regions.push_back(-1);
+          regions[nextReg]++;
+          nextReg++;
+        }
 
       }
     }
   }
+
+  /* Pick out largest region */
+  max = 0;
+  for (i=0; i < regions.size(); i++) {
+    if (regions[i] > max)
+      max = regions[i];
+  }
+
+  cout << max << '\n';
 
   return 0;
 }
