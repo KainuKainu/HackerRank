@@ -1,8 +1,7 @@
-def score(S, sub):
+def score(S, sub, L):
     i = count = 0
-    dif = len(S)
-    while i < dif:
-        tmp = S.find(sub, i, dif)
+    while i < L:
+        tmp = S.find(sub, i, L)
         if tmp == -1: break
         else:
             i = tmp+1
@@ -12,18 +11,11 @@ def score(S, sub):
 S = input()
 L = len(S)
 vow = ['A', 'E', 'I', 'O', 'U']
-d = {'Stuart': 0, 'Kevin': 0}
-a = {}
-alrdy = []
-for i in range (L):
-    for j in range (i+1, L+1):
-        tmp = S[i:j]
-        if tmp not in alrdy:
-            scr = score(S, S[i:j])
-            if tmp[0] in vow: d['Kevin'] += scr
-            else: d['Stuart'] += scr
-            alrdy.append(S[i:j])
+d = [0]*2
+full = {S[i:j+1] for i in range(L) for j in range(i,L)}
+for sub in full:
+    if sub[0] in vow: d[0] += score(S,sub,L)
+    else: d[1] += score(S,sub,L)
 
-if d['Kevin'] == d['Stuart']: print('Draw')
-else: print ("%s %d" % (('Kevin',d['Kevin']) if d['Kevin']>d['Stuart'] \
-        else ('Stuart',d['Stuart'])))
+if d[0] == d[1]: print('Draw')
+else: print ("%s %d" % (('Kevin',d[0]) if d[0]>d[1] else ('Stuart',d[1])))
