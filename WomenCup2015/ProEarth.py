@@ -1,8 +1,13 @@
 N,T = [int(num) for num in input().split()]
-x = -1
-for a in range (1,N+1):
-    T += x
-    if a%2 == 0:
-        if x < 0: x = -(x-1)
-        else: x = -(x+1)
+k = int(N/2)
+if k%2 == 0:
+    T += k
+else:
+    T -= k+1
+if N%2 == 1:
+    k += 1
+    if k%2 == 1:
+        T -= k
+    else:
+        T += k
 print(T)
